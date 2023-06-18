@@ -1,4 +1,4 @@
-# Bit VideoParty!
+# Bit Video Party!
 
 **Watch a group movie with the help of VLC and Bit!**
 
