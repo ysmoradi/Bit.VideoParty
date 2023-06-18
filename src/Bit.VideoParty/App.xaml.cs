@@ -9,6 +9,6 @@ public partial class App
     {
         e.Handled = true;
 
-        Dispatcher.Invoke(() => MessageBox.Show(e.Exception?.ToString() ?? "Unknown error!"));
+        Dispatcher.Invoke(() => Clipboard.SetText(e.Exception.ToString()));
     }
 }

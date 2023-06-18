@@ -17,7 +17,8 @@ public partial class MainWindow
         "https://bit-video-party.azurewebsites.net";
 #endif
     const string vlcPassword = "P@ssw0rd";
-    private HubConnection connection;
+    private readonly HubConnection connection;
+    private readonly PeriodicTimer timer;
 
     public MainWindow()
     {
@@ -31,42 +32,84 @@ public partial class MainWindow
 5- Select `Main Interfaces` in left pane and check the `web` checkbox
 6- Restart VLC (These changes are required for the 1st time only)
 6- Write group name down here and tap on Connect!
-7- Press toggle and enjoy!";
+7- Press toggle and enjoy! ;D";
+
+        connection = new HubConnectionBuilder()
+                .WithUrl($"{serverUrl}/signalr/video-party")
+                .Build();
+
+        timer = new PeriodicTimer(TimeSpan.FromSeconds(10));
+
+        connection.Closed += async (error) =>
+        {
+            await Dispatcher.InvokeAsync(async () =>
+            {
+                Group.Foreground = Brushes.Red;
+
+                while (await timer.WaitForNextTickAsync())
+                {
+                    if (connection.State is HubConnectionState.Connected)
+                        break;
+
+                    if (connection.State is HubConnectionState.Disconnected)
+                    {
+                        try
+                        {
+                            await DoConnect();
+                        }
+                        catch (Exception exp)
+                        {
+                            Clipboard.SetText(exp.ToString());
+                        }
+                    }
+                }
+            });
+        };
+
+        connection.On("Toggle", async () =>
+        {
+            await Dispatcher.InvokeAsync(DoToggle);
+        });
     }
 
     private async void Connect_Click(object sender, RoutedEventArgs e)
     {
+        await DoConnect();
+    }
+
+    private async Task DoConnect()
+    {
         try
         {
+            if (string.IsNullOrWhiteSpace(Group.Text))
+                throw new InvalidOperationException("Group name may not be empty!");
+
             Group.IsReadOnly = true;
 
             Connect.IsEnabled = false;
 
-            if (connection is not null)
-                await connection.DisposeAsync();
+            Group.Foreground = Brushes.Yellow;
 
-            if (string.IsNullOrWhiteSpace(Group.Text))
-                throw new InvalidOperationException("Group name may not be empty!");
-
-            connection = new HubConnectionBuilder()
-                .WithUrl($"{serverUrl}/signalr/video-party")
-                .Build();
-
-            connection.Closed += async (error) =>
+            try
             {
-                Dispatcher.Invoke(() => Group.Foreground = Brushes.Red);
-            };
+                using CancellationTokenSource stopCts = new(TimeSpan.FromSeconds(10));
 
-            connection.On("Toggle", async () =>
-            {
-                await Dispatcher.InvokeAsync(DoToggle);
-            });
+                await connection.StopAsync(stopCts.Token);
+            }
+            catch { }
 
-            await connection.StartAsync();
+            using CancellationTokenSource startCts = new(TimeSpan.FromSeconds(10));
+
+            await connection.StartAsync(startCts.Token);
 
             await connection.InvokeAsync("AddToGroup", Group.Text);
 
             Group.Foreground = Brushes.Green;
+        }
+        catch
+        {
+            Group.Foreground = Brushes.Red;
+            throw;
         }
         finally
         {
