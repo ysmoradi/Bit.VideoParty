@@ -46,20 +46,23 @@ public partial class MainWindow
             {
                 Group.Foreground = Brushes.Red;
 
-                while (await timer.WaitForNextTickAsync())
+                if (error is not null)
                 {
-                    if (connection.State is HubConnectionState.Connected)
-                        break;
-
-                    if (connection.State is HubConnectionState.Disconnected)
+                    while (await timer.WaitForNextTickAsync())
                     {
-                        try
+                        if (connection.State is HubConnectionState.Connected)
+                            break;
+
+                        if (connection.State is HubConnectionState.Disconnected)
                         {
-                            await DoConnect();
-                        }
-                        catch (Exception exp)
-                        {
-                            Clipboard.SetText(exp.ToString());
+                            try
+                            {
+                                await DoConnect();
+                            }
+                            catch (Exception exp)
+                            {
+                                Clipboard.SetText(exp.ToString());
+                            }
                         }
                     }
                 }
