@@ -35,6 +35,7 @@ public partial class MainWindow
 
         connection = new HubConnectionBuilder()
                 .WithUrl($"{serverUrl}/signalr/video-party")
+                .WithAutomaticReconnect()
                 .Build();
 
         connection.Closed += async (error) =>
@@ -45,25 +46,7 @@ public partial class MainWindow
 
                 if (error is not null)
                 {
-                    while (true)
-                    {
-                        if (connection.State is HubConnectionState.Connected)
-                            break;
-
-                        if (connection.State is HubConnectionState.Disconnected)
-                        {
-                            try
-                            {
-                                await DoConnect();
-                            }
-                            catch (Exception exp)
-                            {
-                                Clipboard.SetText(exp.ToString());
-                            }
-                        }
-
-                        await Task.Delay(1000);
-                    }
+                    Clipboard.SetText(error.ToString());
                 }
             });
         };
@@ -100,7 +83,7 @@ public partial class MainWindow
             }
             catch { }
 
-            using CancellationTokenSource cts = new(TimeSpan.FromSeconds(15));
+            using CancellationTokenSource cts = new(TimeSpan.FromSeconds(20));
 
             await connection.StartAsync(cts.Token);
 
