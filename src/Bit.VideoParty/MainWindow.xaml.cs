@@ -27,7 +27,7 @@ public partial class MainWindow
 1- Press `Ctrl + P` in VLC Player
 2- In `Show Settings` choose `All`
 3- Seach for `Lua` and select it in left pane
-4- Set `Lua HTTP Password` as `P@ssw0rd`
+4- Set `Lua HTTP Password` as `P@ssw0rd` (Not Lua Telnet Password)
 5- Select `Main Interfaces` in left pane and check the `web` checkbox
 6- Restart VLC (These changes are required for the 1st time only)
 6- Write group name down here and tap on Connect!
