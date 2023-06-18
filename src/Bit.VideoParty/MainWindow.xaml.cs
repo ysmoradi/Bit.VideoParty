@@ -18,7 +18,6 @@ public partial class MainWindow
 #endif
     const string vlcPassword = "P@ssw0rd";
     private readonly HubConnection connection;
-    private readonly PeriodicTimer timer;
 
     public MainWindow()
     {
@@ -38,8 +37,6 @@ public partial class MainWindow
                 .WithUrl($"{serverUrl}/signalr/video-party")
                 .Build();
 
-        timer = new PeriodicTimer(TimeSpan.FromSeconds(10));
-
         connection.Closed += async (error) =>
         {
             await Dispatcher.InvokeAsync(async () =>
@@ -48,7 +45,7 @@ public partial class MainWindow
 
                 if (error is not null)
                 {
-                    while (await timer.WaitForNextTickAsync())
+                    while (true)
                     {
                         if (connection.State is HubConnectionState.Connected)
                             break;
@@ -64,6 +61,8 @@ public partial class MainWindow
                                 Clipboard.SetText(exp.ToString());
                             }
                         }
+
+                        await Task.Delay(1000);
                     }
                 }
             });
@@ -95,17 +94,17 @@ public partial class MainWindow
 
             try
             {
-                using CancellationTokenSource stopCts = new(TimeSpan.FromSeconds(10));
+                using CancellationTokenSource stopCts = new(TimeSpan.FromSeconds(3));
 
                 await connection.StopAsync(stopCts.Token);
             }
             catch { }
 
-            using CancellationTokenSource startCts = new(TimeSpan.FromSeconds(10));
+            using CancellationTokenSource cts = new(TimeSpan.FromSeconds(15));
 
-            await connection.StartAsync(startCts.Token);
+            await connection.StartAsync(cts.Token);
 
-            await connection.InvokeAsync("AddToGroup", Group.Text);
+            await connection.InvokeAsync("AddToGroup", Group.Text, cts.Token);
 
             Group.Foreground = Brushes.Green;
         }
