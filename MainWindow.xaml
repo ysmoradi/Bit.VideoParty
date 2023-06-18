@@ -1,0 +1,14 @@
+﻿<Window x:Class="Bit.VideoParty.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Bit Video Party!" Height="300" Width="500" FontSize="16" WindowStyle="ToolWindow" FontFamily="Segoe UI">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock FontSize="14" x:Name="Help" Margin="5" />
+        <TextBox x:Name="Group" Margin="5" Width="100" Foreground="Yellow" />
+        <Button Content="Connect" x:Name="Connect" Click="Connect_Click" Margin="5" Width="100" />
+        <Button Content="Toggle" x:Name="Toggle" Click="Toggle_Click" Margin="5" Width="100" />
+    </StackPanel>
+</Window>

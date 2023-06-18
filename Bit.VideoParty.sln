@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33801.468
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bit.VideoParty", "Bit.VideoParty.csproj", "{D8DA7142-517C-460D-88EF-9E10CF787A76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bit.VideoParty.Api", "..\Bit.VideoParty.Api\Bit.VideoParty.Api.csproj", "{13469781-1861-4020-BCE1-CB88799A254B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8DA7142-517C-460D-88EF-9E10CF787A76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8DA7142-517C-460D-88EF-9E10CF787A76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8DA7142-517C-460D-88EF-9E10CF787A76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8DA7142-517C-460D-88EF-9E10CF787A76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13469781-1861-4020-BCE1-CB88799A254B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13469781-1861-4020-BCE1-CB88799A254B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13469781-1861-4020-BCE1-CB88799A254B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13469781-1861-4020-BCE1-CB88799A254B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {92F81D1E-2AF5-478D-ABCB-2F0C539F7963}
+	EndGlobalSection
+EndGlobal
