@@ -47,7 +47,7 @@ public partial class MainWindow
                 throw new InvalidOperationException("Group name may not be empty!");
 
             connection = new HubConnectionBuilder()
-                .WithUrl($"{serverUrl}/video-party-hub")
+                .WithUrl($"{serverUrl}/signalr/video-party")
                 .Build();
 
             connection.Closed += async (error) =>

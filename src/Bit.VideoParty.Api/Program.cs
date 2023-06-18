@@ -11,7 +11,7 @@ app.MapPost("/api/toggle", async (IHubContext<VideoPartyHub> videoPartyHubContex
     await videoPartyHubContext.Clients.GroupExcept(group, senderConnectionId).SendAsync("Toggle");
 });
 
-app.MapHub<VideoPartyHub>("video-party-hub");
+app.MapHub<VideoPartyHub>("signalr/video-party");
 
 app.Run();
 
