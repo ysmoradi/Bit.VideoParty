@@ -12,7 +12,7 @@ public partial class App
         Dispatcher.Invoke(() =>
         {
             Clipboard.SetText(e.Exception.ToString());
-            MessageBox.Show("Error! More info copied to your clipboard!");
+            MessageBox.Show("Error! More info copied to your clipboard!", "Bit Video Player");
         });
     }
 }
