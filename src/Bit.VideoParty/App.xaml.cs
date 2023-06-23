@@ -9,6 +9,10 @@ public partial class App
     {
         e.Handled = true;
 
-        Dispatcher.Invoke(() => Clipboard.SetText(e.Exception.ToString()));
+        Dispatcher.Invoke(() =>
+        {
+            Clipboard.SetText(e.Exception.ToString());
+            MessageBox.Show("Error! More info copied to your clipboard!");
+        });
     }
 }

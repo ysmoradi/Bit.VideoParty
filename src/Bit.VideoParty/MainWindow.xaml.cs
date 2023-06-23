@@ -47,6 +47,7 @@ public partial class MainWindow
                 if (error is not null)
                 {
                     Clipboard.SetText(error.ToString());
+                    MessageBox.Show("Error! More info copied to your clipboard!");
                 }
             });
         };
